@@ -113,7 +113,7 @@
                 margin-bottom: 10px;
             }
             .sh_cotizador{
-                display: none;
+                visibility: hidden;
             }
         </style>
     </head>
@@ -388,7 +388,9 @@
             let global_currency="MXN";//USD
 
             const params = new URLSearchParams(new URL(window.location.href).search);
-
+            if(!params.get('esp')){
+                english=true;
+            }
             var costo_total="$100";
             var img_depa=null;
             var selected_apt=params.get("depa");
@@ -550,7 +552,7 @@
                         costo_total=data[i]["COSTO"];
                         img_depa=data[i]["IMG"];
                         fillInfo();
-                        $('.sh_cotizador').show();
+                        $('.sh_cotizador').css({'visibility':'visible'});
                         break;
                     }
                 }
