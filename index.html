@@ -112,6 +112,9 @@
                 margin-right: 28px;
                 margin-bottom: 10px;
             }
+            .sh_cotizador{
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -535,7 +538,7 @@
             const sheetId = '1Xvi1GtNckzVeEsgx3DT_LucpzVLWOz627DtSXdNptHM';
             const sheetName = 'costos';
             const sheetUrl = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
-
+            console.log('looking for '+selected_apt);
             fetch(sheetUrl)
             .then(res => res.json())
             .then(data => {
@@ -543,9 +546,11 @@
                 usd_price=data[0]["PRECIO DOLAR"];
                 for(var i=0;i<data.length;i++){
                     if(data[i]["APARTAMENTO"]==selected_apt){
+                        console.log('found');
                         costo_total=data[i]["COSTO"];
                         img_depa=data[i]["IMG"];
                         fillInfo();
+                        $('.sh_cotizador').show();
                         break;
                     }
                 }
