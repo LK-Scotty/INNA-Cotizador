@@ -383,14 +383,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script>
-            var english=false;
+            var english=true;
             let usd_price = 18.5;
             let global_currency="MXN";//USD
 
             const params = new URLSearchParams(new URL(window.location.href).search);
-            if(!params.get('esp')){
-                english=true;
-                console.log('EN Lang')
+            console.log(params.get('esp'));
+            if(params.get('esp')){
+                english=false;
+                console.log('ES Lang');
             }
             var costo_total="$100";
             var img_depa=null;
@@ -550,7 +551,7 @@
                 //console.log('Sheet data:', data);
                 usd_price=data[0]["PRECIO DOLAR"];
                 for(var i=0;i<data.length;i++){
-                    if(data[i]["APARTAMENTO"]==selected_apt){
+                    if(selected_apt.includes(data[i]["APARTAMENTO"])){
                         console.log('found');
                         costo_total=data[i]["COSTO"];
                         img_depa=data[i]["IMG"];
