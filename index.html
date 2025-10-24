@@ -115,6 +115,23 @@
             .sh_cotizador{
                 visibility: hidden;
             }
+            @media (max-width: 768px) {
+  .sh_cotizador {
+    flex-direction: column; /* stack vertically */
+  }
+
+  .sh_mailer,
+  .plans-container {
+    flex: 1 1 100% !important; /* take full width */
+  }
+.sh_mailer div {
+    flex-direction: column; /* stack inner items */
+    gap: 12px; /* optional smaller gap for mobile */
+  }
+  .plans-container{
+    margin-top: 18px;
+  }
+}
         </style>
     </head>
     <body>
