@@ -390,6 +390,7 @@
             const params = new URLSearchParams(new URL(window.location.href).search);
             if(!params.get('esp')){
                 english=true;
+                console.log('EN Lang')
             }
             var costo_total="$100";
             var img_depa=null;
@@ -510,6 +511,8 @@
 
                     selected_apt:img_depa,
 
+                    mail_name:$('#mail-name').val(),
+                    mail_whatsapp:$('#mail-whatsapp').val(),
                     to_email: recipient,
                     subject: subject,
                     message: message
