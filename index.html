@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Cotizador</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .sh_plan{
+                display: none;
+            }
+            .Efectivo{
+                display: block;
+            }
+            .sh_cotizador{
+                display: flex;
+                background-color: #005649;
+                padding: 20px;
+                gap: 10px;
+                border-radius: 8px;
+            }
+            .sh_cotizador .sh_mailer,.sh_cotizador .plans-container{
+                background-color: white;
+                flex:1;
+            }
+            .sh_mailer{
+                flex: 0 0 60% !important;
+            }
+            .table-wrapper{
+                padding: 12px 28px;
+            }
+            .table-wrapper h2{
+                margin: 0;
+                font-size: 14px;
+                text-align: center;
+                margin-top: -29px;
+                padding-bottom: 10px;
+                color: white;
+            }
+            .table-wrapper table{
+                width: 100%;
+                font-size: 14px;
+                border-collapse: collapse;
+            }
+            .sh_mailer div:nth-child(1){
+                margin-top: 16px;
+            }
+            .sh_mailer div{
+                display: flex;
+                gap: 27px;
+                padding: 17px;
+            }
+            .sh_mailer div input,.sh_mailer div select{
+                flex: 1;
+                border: 1px solid white;
+                border-bottom: 1px solid black;
+                font-size: 20px;
+                padding-bottom: 8px;
+                outline: none;
+            }
+            #mail-esquema{
+            }
+            .sh_mailer div select{
+                padding-right: 7px;
+            }
+            .sh_mailer button{
+                background-color: #005649;
+                color: white;
+                border: 2px solid #005649;
+                padding: 6px 12px;
+                font-weight: 600;
+                border-radius: 3px;
+                float: right;
+                margin-right: 17px;
+                transition: 0.2s ease;
+                cursor: pointer;
+                margin-bottom: 16px;
+            }
+            .sh_mailer button:hover{
+                background-color: #00947e;
+            }
+            .price-shown-tr{
+                border: 2px solid black;
+            }
+            .table-ddown{
+                width: 50%;
+            }
+            .sh_custom-btn{
+                background-color: #005649;
+                color: white;
+                font-weight: 600;
+                font-size: 12px;
+                border: none;
+                border-radius: 3px;
+                transition: 0.2s ease;
+                padding: 4px 10px;
+                cursor: pointer;
+            }
+            .sh_custom-btn:hover{
+                background-color: #00947e;
+            }
+            .currency-toggle{
+                text-decoration: none;
+                color: #005649;
+                border: 2px solid #005649;
+                border-radius: 3px;
+                padding: 2px 4px;
+                background-color: white;
+                float: right;
+                margin-right: 28px;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sh_cotizador">
+            <form class="sh_mailer">
+                <div>
+                    <input id="mail-name" type="text" placeholder="Nombre" data-en="Name" class="translatable-placeholder" required>
+                    <input id="mail-mail" type="email" placeholder="Correo electrónico" data-en="E-mail" class="translatable-placeholder" required>
+                </div>
+                <div>
+                    <input id="mail-whatsapp" type="text" placeholder="Whatsapp" required>
+                    <select id="mail-esquema" required>
+                        <option value="" class="translatable" data-en="Investment plan" disabled selected>Esquema de inversión</option>
+                        <option value="Efectivo" class="translatable" data-en="Cash">Efectivo</option>
+                        <option value="Esquema-II" class="translatable" data-en="Plan II">Esquema I</option>
+                        <option value="Esquema-III" class="translatable" data-en="Plan III">Esquema II</option>
+                        <option value="Personalizado" class="translatable" data-en="Custom plan">Esquema Personalizado</option>
+                    </select>
+                </div>
+                <button class="translatable" data-en="SEND TO MAIL">ENVIAR POR CORREO</button>
+            </form>
+            <div class="plans-container">
+                <div class="table-wrapper sh_plan Efectivo">
+                    <h2 class="translatable" data-en="CASH">EFECTIVO</h2>
+                    <table>
+                        <tr>
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO</td>
+                            <td data-which="Efectivo" class="cotizador-descuento-perc">5%</td>
+                            <td data-which="Efectivo" class="5-percent cotizador-descuento">$47,013</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr class="price-shown-tr">
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b data-which="Efectivo" class="final-price cotizador-final" data-discount="0.05">$893,254</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td data-which="Efectivo" class="cotizador-enganche-perc">90%</td>
+                            <td data-which="Efectivo" class="90-percent cotizador-enganche">$803,928</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td data-which="Efectivo" class="cotizador-entrega-perc">10%</td>
+                            <td data-which="Efectivo" class="10-percent cotizador-entrega">$89,325</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="table-wrapper sh_plan Esquema-II">
+                    <h2 class="translatable" data-en="INVESTMENT PLAN I">ESQUEMA I</h2>
+                    <table>
+                        <tr>
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO</td>
+                            <td data-which="Esquema-II" class="cotizador-descuento-perc">2.5%</td>
+                            <td data-which="Esquema-II" class="2-5-percent cotizador-descuento">$372,945</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr class="price-shown-tr">
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b data-which="Esquema-II" class="final-price cotizador-final" data-discount="0.025">$14,544,866</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td data-which="Esquema-II" class="cotizador-enganche-perc">50%</td>
+                            <td data-which="Esquema-II" class="50-percent cotizador-enganche">$7,272,433</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="CONSTRUCTION">CONSTRUCCIÓN</td>
+                            <td data-which="Esquema-II" class="cotizador-construccion-perc">30%</td>
+                            <td data-which="Esquema-II" class="30-percent cotizador-construccion">$4,363,460</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>
+                                <select data-which="Esquema-II" class="table-ddown plan-1-months cotizador-mensualidades">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                            <td data-which="Esquema-II" class="plan-1-month-total cotizador-mensualidad">$545,432</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td data-which="Esquema-II" class="cotizador-entrega-perc">20%</td>
+                            <td data-which="Esquema-II" class="20-percent cotizador-entrega">$2,908,973</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="table-wrapper sh_plan Esquema-III">
+                    <h2 class="translatable" data-en="INVESTMENT PLAN II">ESQUEMA II</h2>
+                    <table>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="translatable" data-en="LIST PRICE">PRECIO LISTA</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr class="price-shown-tr">
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b data-which="Esquema-III" class="final-price cotizador-final" data-discount="1">$940,267</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td data-which="Esquema-III" class="cotizador-enganche-perc">30%</td>
+                            <td data-which="Esquema-III" class="30-percent cotizador-enganche">$282,080</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="CONSTRUCTION">CONSTRUCCIÓN</td>
+                            <td data-which="Esquema-III" class="cotizador-construccion-perc">35%</td>
+                            <td data-which="Esquema-III" class="35-percent cotizador-construccion">$329,093</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>
+                                <select data-which="Esquema-III" class="table-ddown plan-2-months cotizador-mensualidades">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                            <td data-which="Esquema-III" class="plan-2-month-total cotizador-mensualidad">$41,137</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td data-which="Esquema-III" class="cotizador-entrega-perc">35%</td>
+                            <td data-which="Esquema-III" class="35-percent cotizador-entrega">$329,093</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="table-wrapper sh_plan Personalizado">
+                    <h2 class="translatable" data-en="CUSTOM PLAN">PLAN PERSONALIZADO</h2>
+                    <table>
+                        <tr class="price-shown-tr">
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b data-which="Esquema-III" class="final-price cotizador-final" data-discount="1">$836,868</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td>
+                                <!--<select class="table-ddown custom-enganche" id="s1">
+                                </select>-->
+                                <input type="range" id="eng" min="0" max="100" step="5" value="40">
+                            </td>
+                            <td data-which="Esquema-III" class="custom-enganche-perc cotizador-enganche-perc"></td>
+                            <td data-which="Esquema-III" class="custom-enganche cotizador-enganche"></td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="CONSTRUCTION">CONSTRUCCIÓN</td>
+                            <td>
+                                <!--<select class="table-ddown custom-construction" id="s2">
+                                </select>-->
+                                <input type="range" id="cons" min="0" max="100" step="5" value="40">
+                            </td>
+                            <td data-which="Esquema-III" class="custom-construccion-perc cotizador-construccion-perc"></td>
+                            <td data-which="Esquema-III" class="custom-construccion cotizador-construccion">$251,060</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>
+                                <select data-which="Esquema-III" class="table-ddown custom-months cotizador-mensualidades">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                            <td data-which="Esquema-III" class="custom-months-total cotizador-mensualidad">$418,434</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DELIVERY">ENTREGA</td>
+                            <td>
+                                <!--<select class="table-ddown custom-delivery" id="s3">
+                                </select>-->
+                                <input type="range" id="ent" min="0" max="100" step="5" value="20">
+                            </td>
+                            <td data-which="Esquema-III" class="custom-entrega-perc cotizador-entrega-perc"></td>
+                            <td data-which="Esquema-III" class="custom-entrega cotizador-entrega">$418,434</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td style="color: #71A874;font-weight: bold;">TOTAL: <span>100</span>%</td>
+                            <td>
+                                <!--<button class="translatable sh_custom-btn" data-en="CALCULATE">CALCULAR</button>-->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <a href="#" class="currency-toggle">MXN</a>
+            </div>
+        </div>
+         
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script>
+            var english=false;
+            let usd_price = 18.5;
+            let global_currency="MXN";//USD
+
+            const params = new URLSearchParams(new URL(window.location.href).search);
+
+            var costo_total="$100";
+            var img_depa=null;
+            var selected_apt=params.get("depa");
+
+            emailjs.init("Tmdpdtf9UmwoPRS9R");
+            $(document).on('submit','.sh_mailer',function(e){
+                e.preventDefault();
+                const recipient = $('#mail-mail').val();
+                const subject = "COTIZACIÓN INNA BCH";
+                const message = "This email was sent without any input fields! 🚀";
+
+
+                //PRICES
+                var d_esquema="Cash";
+
+                //TEXTS
+                var t_cotizacion_de_departamento="Cotización de Departamento";
+                var t_esquema_elegido="Esquema elegido";
+                var t_descuento="DESCUENTO";
+                var t_precio_final="PRECIO FINAL";
+                var t_enganche="ENGANCHE";
+                var t_construccion="CONSTRUCCIÓN";
+                var t_mensualidades="MENSUALIDADES";
+                var t_alaentrega="A LA ENTREGA";
+                var t_notes="Notas";
+                var t_notes_content="Las unidades se pueden separar con $100,000 MXN o $5,000 USD Los esquemas de inversión podrán variar sin previo aviso";
+                //TRANSLATION FOR TEXTS
+                if(english){
+                    t_cotizacion_de_departamento="Apartment Quote";
+                    t_esquema_elegido="Chosen plan";
+                    t_descuento="DISCOUNT";
+                    t_precio_final="FINAL PRICE";
+                    t_enganche="DOWN PAYMENT";
+                    t_construccion="CONSTRUCION";
+                    t_mensualidades="MONTHLY PAYMENTS";
+                    t_alaentrega="AT DELIVERY";
+                    t_notes="Notes";
+                    t_notes_content="Units can be reserved with $100,000 MXN or $5,000 USD. Investment plans are subject to change without prior notice.";
+                }
+
+                var c_descuento="N/A";
+                var c_descuento_money="N/A";
+                var c_precio_final="N/A";
+                var c_enganche_perc="N/A";
+                var c_enganche="N/A";
+                var c_meses="N/A";
+                var c_meses_precio="N/A";
+                var c_entrega_perc="N/A";
+                var c_entrega="N/A";
+                var c_construccion_perc="N/A";
+                var c_construccion="N/A";
+
+                d_esquema=$('#mail-esquema').val();
+
+                if($('.cotizador-descuento[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_descuento=$('.cotizador-descuento[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-descuento-perc[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_descuento_money=$('.cotizador-descuento-perc[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-final[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_precio_final=$('.cotizador-final[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-enganche-perc[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_enganche_perc=$('.cotizador-enganche-perc[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-enganche[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_enganche=$('.cotizador-enganche[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-construccion-perc[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_construccion_perc=$('.cotizador-construccion-perc[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_construccion=$('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-mensualidades[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_meses=$('.cotizador-mensualidades[data-which="'+$('#mail-esquema').val()+'"]').val();
+                }
+                if($('.cotizador-mensualidad[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_meses_precio=$('.cotizador-mensualidad[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-mensualidad[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_meses_precio=$('.cotizador-mensualidad[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-entrega-perc[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_entrega_perc=$('.cotizador-entrega-perc[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+                if($('.cotizador-entrega[data-which="'+$('#mail-esquema').val()+'"]')){
+                    c_entrega=$('.cotizador-entrega[data-which="'+$('#mail-esquema').val()+'"]').text();
+                }
+
+                const templateParams = {
+                    txt_cotizacion_de_departamento:t_cotizacion_de_departamento,
+                    txt_esquema_elegido:t_esquema_elegido,
+                    txt_descuento:t_descuento,
+                    txt_precio_final:t_precio_final,
+                    txt_enganche:t_enganche,
+                    txt_mensualidades:t_mensualidades,
+                    txt_construccion:t_construccion,
+                    txt_alaentrega:t_alaentrega,
+                    txt_notes:t_notes,
+                    txt_notes_content:t_notes_content,
+
+                    descuento:c_descuento,
+                    descuento_money:c_descuento_money,
+                    precio_final:c_precio_final,
+                    enganche_perc:c_enganche_perc,
+                    enganche:c_enganche,
+                    meses:c_meses,
+                    meses_precio:c_meses_precio,
+                    entrega_perc:c_entrega_perc,
+                    entrega:c_entrega,
+                    construccion_perc:c_construccion_perc,
+                    construccion:c_construccion,
+
+                    esquema:d_esquema,
+
+                    selected_apt:img_depa,
+
+                    to_email: recipient,
+                    subject: subject,
+                    message: message
+                };
+
+                emailjs.send("service_wburzmr", "template_a7zsksd", templateParams)
+                    .then(
+                    (response) => {
+                        console.log("✅ Email sent successfully!", response);
+                        alert("Email sent!");
+                    },
+                    (error) => {
+                        console.error("❌ Failed:", error);
+                        alert("Error sending email — check console.");
+                    }
+                );
+            });
+
+            if(english){
+                $('.translatable').each(function(){
+                    $(this).text($(this).attr('data-en'));
+                });
+                $('.translatable-placeholder').each(function(){
+                    $(this).attr('placeholder',($(this).attr('data-en')));
+                });
+            }
+
+            const sheetId = '1Xvi1GtNckzVeEsgx3DT_LucpzVLWOz627DtSXdNptHM';
+            const sheetName = 'costos';
+            const sheetUrl = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
+
+            fetch(sheetUrl)
+            .then(res => res.json())
+            .then(data => {
+                //console.log('Sheet data:', data);
+                usd_price=data[0]["PRECIO DOLAR"];
+                for(var i=0;i<data.length;i++){
+                    if(data[i]["APARTAMENTO"]==selected_apt){
+                        costo_total=data[i]["COSTO"];
+                        img_depa=data[i]["IMG"];
+                        fillInfo();
+                        break;
+                    }
+                }
+            })
+            .catch(err => console.error('Error loading sheet:', err));
+
+            $(document).on('change','#mail-esquema',function(){
+                const whicho=$(this).val();
+                $('.sh_plan').hide();
+                $('.'+whicho).show();
+            });
+
+            function formatNumber(num, currency = global_currency) {
+                num = parseFloat(String(num).replace(/[$,]/g, '')) || 0;
+
+                let value = (currency === "USD") ? num / usd_price : num; // divide only for USD
+
+                let formatted = value.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                if (currency === "USD") {
+                    formatted = formatted;
+                }
+
+                return formatted;
+            }
+
+            function fillInfo(){
+                var total=parseFloat(costo_total.replace(/[$,]/g, ''));
+                $('.2-5-percent').text('$'+formatNumber(total*0.025));
+                $('.5-percent').text('$'+formatNumber(total*0.05));
+                $('.10-percent').text('$'+formatNumber(total*0.1));
+                $('.20-percent').text('$'+formatNumber(total*0.2));
+                $('.30-percent').text('$'+formatNumber(total*0.3));
+                $('.35-percent').text('$'+formatNumber(total*0.35));
+                $('.50-percent').text('$'+formatNumber(total*0.5));
+                $('.90-percent').text('$'+formatNumber(total*0.9));
+
+                $('.final-price').each(function(){
+                    const disc=parseFloat($(this).attr('data-discount').replace(/[$,]/g, ''));
+                    if($(this).attr('data-discount')=='1'){
+                        $(this).text('$'+formatNumber(total));
+                    }
+                    else{
+                        $(this).text('$'+formatNumber(total-(total*disc)));
+                    }
+                });
+                $('.plan-1-month-total').text('$'+formatNumber(total*0.3));
+                $('.plan-1-month-total').attr('data-base',total*0.30);
+                $('.plan-2-month-total').text('$'+formatNumber(total*0.35));
+                $('.plan-2-month-total').attr('data-base',total*0.35);
+                updateDisplay();
+            }
+
+            $(document).on('change','.plan-1-months',function(){
+                const dato=$('.plan-1-month-total').attr('data-base')/$(this).val();
+                $('.plan-1-month-total').text('$'+formatNumber(dato));
+            });
+            $(document).on('change','.plan-2-months',function(){
+                const dato=$('.plan-2-month-total').attr('data-base')/$(this).val();
+                $('.plan-2-month-total').text('$'+formatNumber(dato));
+            });
+
+            $(document).on('click','.currency-toggle',function(e){
+                e.preventDefault();
+                $(this).toggleClass('USD');
+                if($(this).hasClass('USD')){
+                    global_currency="USD";
+                    $(this).text("USD");
+                }
+                else{
+                    global_currency="MXN";
+                    $(this).text("MXN");
+                }
+                fillInfo();
+            });
+
+  const sliders = ['#eng', '#cons', '#ent'];
+
+  function updateDisplay() {
+    $('.custom-enganche-perc').text($('#eng').val() + '%');
+    $('.custom-construccion-perc').text($('#cons').val() + '%');
+    $('.custom-entrega-perc').text($('#ent').val() + '%');
+    
+    const total =
+      parseInt($('#eng').val()) +
+      parseInt($('#cons').val()) +
+      parseInt($('#ent').val());
+    $('#total').text(total + '%');
+    showCustom();
+  }
+
+  function showCustom(){
+    var total=parseFloat(costo_total.replace(/[$,]/g, ''));
+    percEng=$('#eng').val()/100;
+    consEng=$('#cons').val()/100;
+    entrEng=$('#ent').val()/100;
+    $('.custom-enganche').text('$'+formatNumber(total*percEng));
+    $('.custom-construccion').text('$'+formatNumber(total*consEng));
+    $('.custom-entrega').text('$'+formatNumber(total*entrEng));
+  }
+
+  function balanceSliders(changedId) {
+    let values = sliders.map(id => parseInt($(id).val()));
+    const total = values.reduce((a, b) => a + b);
+    if (total === 100) return; // perfect
+
+    const diff = total - 100;
+    const idx = sliders.indexOf(changedId);
+
+    // adjust others proportionally
+    let others = sliders.filter(id => id !== changedId);
+    let sumOthers = others
+      .map(id => parseInt($(id).val()))
+      .reduce((a, b) => a + b);
+
+    if (sumOthers === 0) {
+      // edge case: all in one slider
+      const even = Math.floor((100 - parseInt($(changedId).val())) / others.length);
+      others.forEach(id => $(id).val(even));
+    } else {
+      others.forEach(id => {
+        let old = parseInt($(id).val());
+        let adjust = Math.round((old / sumOthers) * diff);
+        $(id).val(old - adjust);
+      });
+    }
+
+    updateDisplay();
+  }
+
+  sliders.forEach(id => {
+    $(id).on('input change', function () {
+      balanceSliders(id);
+    });
+  });
+
+  updateDisplay();
+
+        </script>
+    </body>
+</html>
