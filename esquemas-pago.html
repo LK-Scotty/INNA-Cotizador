@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Cotizador</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .Efectivo{
+                display: block;
+            }
+            .sh_cotizador{
+                display: flex;
+                background-color: #005649;
+                padding: 20px;
+                gap: 10px;
+                border-radius: 8px;
+            }
+            .sh_cotizador .sh_mailer,.sh_cotizador .plans-container{
+                background-color: white;
+                flex:1;
+            }
+            .sh_mailer{
+                flex: 0 0 60% !important;
+            }
+            .table-wrapper{
+                padding: 12px 28px;
+            }
+            .table-wrapper h2{
+                margin: 0;
+                font-size: 14px;
+                text-align: center;
+                margin-top: -29px;
+                padding-bottom: 10px;
+                color: white;
+            }
+            .table-wrapper table{
+                width: 100%;
+                font-size: 14px;
+                border-collapse: collapse;
+            }
+            table td, table th{
+                border: 1px solid black;
+            }
+            table td select{
+                width: 100%;
+            }
+            .sh_mailer div:nth-child(1){
+                margin-top: 16px;
+            }
+            .sh_mailer div{
+                display: flex;
+                gap: 27px;
+                padding: 17px;
+            }
+            .sh_mailer div input,.sh_mailer div select{
+                flex: 1;
+                border: 1px solid white;
+                border-bottom: 1px solid black;
+                font-size: 20px;
+                padding-bottom: 8px;
+                outline: none;
+            }
+            #mail-esquema{
+            }
+            .sh_mailer div select{
+                padding-right: 7px;
+            }
+            .sh_mailer button{
+                background-color: #005649;
+                color: white;
+                border: 2px solid #005649;
+                padding: 6px 12px;
+                font-weight: 600;
+                border-radius: 3px;
+                float: right;
+                margin-right: 17px;
+                transition: 0.2s ease;
+                cursor: pointer;
+                margin-bottom: 16px;
+            }
+            .sh_mailer button:hover{
+                background-color: #00947e;
+            }
+            .price-shown-tr{
+                border: 2px solid black;
+            }
+            .table-ddown{
+                width: 50%;
+            }
+            .sh_custom-btn{
+                background-color: #005649;
+                color: white;
+                font-weight: 600;
+                font-size: 12px;
+                border: none;
+                border-radius: 3px;
+                transition: 0.2s ease;
+                padding: 4px 10px;
+                cursor: pointer;
+            }
+            .sh_custom-btn:hover{
+                background-color: #00947e;
+            }
+            .currency-toggle{
+                text-decoration: none;
+                color: white;
+                border-radius: 3px;
+                background-color: #005649;
+                width: 100%;
+                height: 100%;
+                float: left;
+                text-align: center;
+                font-weight: 600;
+            }
+            @media (max-width: 768px) {
+  .sh_cotizador {
+    flex-direction: column; /* stack vertically */
+  }
+
+  .sh_mailer,
+  .plans-container {
+    flex: 1 1 100% !important; /* take full width */
+  }
+.sh_mailer div {
+    flex-direction: column; /* stack inner items */
+    gap: 12px; /* optional smaller gap for mobile */
+  }
+  .plans-container{
+    margin-top: 18px;
+  }
+}
+        </style>
+    </head>
+    <body>
+        <div class="sh_cotizador">
+            <div class="plans-container">
+                <div class="table-wrapper sh_plan Efectivo">
+                    <h2 class="translatable" data-en="QUOTE">COTIZADOR FINANCIERO</h2>
+                    <table>
+                        <tr>
+                            <th class="translatable" data-en="Unit">Unidad</th>
+                            <th class="translatable" data-en="Type">Tipo</th>
+                            <th class="translatable" data-en="Rooms">No. Recámaras</th>
+                            <th class="translatable" data-en="Location">Ubicación</th>
+                            <th class="translatable" data-en="Interior Area">Area Interior</th>
+                            <th class="translatable" data-en="Terrace Area">Area Terraza</th>
+                            <th class="translatable" data-en="Total Area">Area Total</th>
+                            <th>$/m2</th>
+                            <th class="translatable" data-en="Sale Price">Precio de Venta</th>
+                            <th class="translatable" data-en="Currency">Moneda</th>
+                        </tr>
+                        <tr>
+                            <td><select class="unidad-selector"></select></td>
+                            <td style="text-align: center;" class="header-type">A1</td>
+                            <td style="text-align: center;" class="header-rooms">1</td>
+                            <td style="text-align: center;" class="header-location">PB - Garden</td>
+                            <td style="text-align: center;" class="header-interior-area">68.30</td>
+                            <td style="text-align: center;" class="header-terrace-area">42.64</td>
+                            <td style="text-align: center;" class="header-total-area">110.94</td>
+                            <td style="text-align: center;" class="header-m2">$134,467.39</td>
+                            <td style="text-align: center;" class="header-total">$14,917,812</td>
+                            <td><a href="#" class="currency-toggle">MXN</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="sh_cotizador">
+            <div class="plans-container">
+                <div class="table-wrapper sh_plan Efectivo">
+                    <h2 class="translatable" data-en="INVESTMENT PLANS">ESQUEMAS DE INVERSION</h2>
+                    <table>
+                        <tr>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white;color:white" class="translatable" data-en="FULL PAYMENT">CONTADO</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white;color:white" class="translatable" data-en="PLAN I">PLAZO I</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white;color:white" class="translatable" data-en="PLAN II">PLAZO II</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                            <th style="background-color: #005649;border:1px solid white;color:white" class="translatable" data-en="CUSTOM">PERSONALIZADO</th>
+                            <th style="background-color: #005649;border:1px solid white">&nbsp;</th>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO</td>
+                            <td>5%</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO</td>
+                            <td>5%</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO</td>
+                            <td><input type="number" min="0" max="100" class="custom-descuento">%</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO ($)</td>
+                            <td class="plan-0-discount">$745,891</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO ($)</td>
+                            <td class="plan-1-discount">$745,891</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DISCOUNT">DESCUENTO ($)</td>
+                            <td class="custom-descuento-value">0</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b class="plan-0-finalprice">$745,891</b></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b class="plan-1-finalprice">$745,891</b></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b class="plan-2-finalprice">$745,891</b></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="FINAL PRICE">PRECIO FINAL</b></td>
+                            <td><b class="custom-preciofinal-value">0</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td>90%</td>
+                            <td class="plan-0-enganche">$12,754,729</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td>50%</td>
+                            <td class="plan-1-enganche">$12,754,729</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td>30%</td>
+                            <td class="plan-2-enganche">$12,754,729</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DOWN PAYMENT">ENGANCHE</td>
+                            <td><input type="number" class="custom-enganche" min="0" max="100">%</td>
+                            <td class="custom-enganche-value">$0</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDADES</td>
+                            <td>30%</td>
+                            <td class="plan-1-mensualidades">$4,363,461</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDADES</td>
+                            <td>35%</td>
+                            <td class="plan-2-mensualidades">$4,363,462</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="PARTIAL PAYMENT I">PAGO PARCIAL I</td>
+                            <td><input type="number" min="0" max="100" class="custom-pagoparcial">%</td>
+                            <td class="custom-pagoparcial-value">0</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>8</td>
+                            <td class="plan-0-mensualidades2">$4,363,463</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>8</td>
+                            <td class="plan-1-mensualidades2">$4,363,464</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="MONTHLY PAYMENTS">MENSUALIDADES</td>
+                            <td>
+                                <select class="custom-mensualidades">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                            <td class="custom-mensualidades-value">0</td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td>10%</td>
+                            <td class="plan-0-delivery">$1,417,192</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td>20%</td>
+                            <td class="plan-1-delivery">$1,417,192</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td>35%</td>
+                            <td class="plan-2-delivery">$1,417,192</td>
+                            <td>&nbsp;</td>
+
+                            <td class="translatable" data-en="DELIVERY">A LA ENTREGA</td>
+                            <td><input type="number" min="0" max="100" class="custom-entrega">%</td>
+                            <td class="custom-entrega-value">0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="sh_cotizador">
+            <div class="plans-container">
+                <div class="table-wrapper sh_plan Efectivo">
+                    <h2 class="translatable" data-en="FINANCIAL PROJECTIONS">CORRIDAS FINANCIERAS</h2>
+                    <table>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th><b class="translatable" data-en="FULL PAYMENT">CONTADO</b></th>
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+                            <th><b class="translatable" data-en="PLAN I">PLAZOS I</b></th>
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+                            <th><b class="translatable" data-en="PLAN II">PLAZOS II</b></th>
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+
+                            <th>&nbsp;</th>
+                            <th><b class="translatable" data-en="CUSTOM">PERSONALIZADO</b></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td><b class="translatable" data-en="SALE PRICE">PRECIO DE VENTA</b></td>
+                            <td class="corrida-0-total">$14,171,921</td>
+                            <td>&nbsp;</td>
+
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="SALE PRICE">PRECIO DE VENTA</b></td>
+                            <td class="corrida-1-total">$14,171,921</td>
+                            <td>&nbsp;</td>
+
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="SALE PRICE">PRECIO DE VENTA</b></td>
+                            <td class="corrida-2-total">$14,171,921</td>
+                            <td>&nbsp;</td>
+
+                            <td>&nbsp;</td>
+
+                            <td><b class="translatable" data-en="SALE PRICE">PRECIO DE VENTA</b></td>
+                            <td class="custom-corrida-venta">$14,171,921</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td><b class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDAD</b></td>
+                            <td><b class="translatable" data-en="AMOUNT">MONTO</b></td>
+                            <td>%</td>
+
+                            <td></td>
+
+                            <td><b class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDAD</b></td>
+                            <td><b class="translatable" data-en="AMOUNT">MONTO</b></td>
+                            <td>%</td>
+
+                            <td></td>
+
+                            <td><b class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDAD</b></td>
+                            <td><b class="translatable" data-en="AMOUNT">MONTO</b></td>
+                            <td>%</td>
+
+                            <td></td>
+
+                            <td><b class="translatable" data-en="MONTHLY PAYMENT">MENSUALIDAD</b></td>
+                            <td><b class="translatable" data-en="AMOUNT">MONTO</b></td>
+                            <td>%</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 1</td>
+                            <td class="corrida-0-mes1">$12,754,729</td>
+                            <td>90.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 1</td>
+                            <td class="corrida-1-mes1">$12,754,729</td>
+                            <td>50.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 1</td>
+                            <td class="corrida-2-mes1">$12,754,729</td>
+                            <td>30.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 1</td>
+                            <td class="custom-corrida-mes1">$12,754,729</td>
+                            <td>30.0%</td>
+                            <td>Mar-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 2</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 2</td>
+                            <td class="corrida-1-mes2">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 2</td>
+                            <td class="corrida-2-mes2">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 2</td>
+                            <td class="custom-corrida-mes2">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Apr-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 3</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 3</td>
+                            <td class="corrida-1-mes3">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 3</td>
+                            <td class="corrida-2-mes3">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 3</td>
+                            <td class="custom-corrida-mes3">$652,654</td>
+                            <td>4.4%</td>
+                            <td>May-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 4</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 4</td>
+                            <td class="corrida-1-mes4">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 4</td>
+                            <td class="corrida-2-mes4">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 4</td>
+                            <td class="custom-corrida-mes4">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Jun-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 5</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 5</td>
+                            <td class="corrida-1-mes5">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 5</td>
+                            <td class="corrida-2-mes5">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 5</td>
+                            <td class="custom-corrida-mes5">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Jul-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 6</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 6</td>
+                            <td class="corrida-1-mes6">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 6</td>
+                            <td class="corrida-2-mes6">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 6</td>
+                            <td class="custom-corrida-mes6">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Aug-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 7</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 7</td>
+                            <td class="corrida-1-mes7">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 7</td>
+                            <td class="corrida-2-mes7">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 7</td>
+                            <td class="custom-corrida-mes7">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Sep-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 8</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 8</td>
+                            <td class="corrida-1-mes8">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 8</td>
+                            <td class="corrida-2-mes8">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 8</td>
+                            <td class="custom-corrida-mes8">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Oct-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 9</td>
+                            <td>-</td>
+                            <td>0.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 9</td>
+                            <td class="corrida-1-mes9">$545,432</td>
+                            <td>3.8%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 9</td>
+                            <td class="corrida-2-mes9">$652,654</td>
+                            <td>4.4%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 9</td>
+                            <td class="custom-corrida-mes9">$652,654</td>
+                            <td>4.4%</td>
+                            <td>Nov-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="translatable" data-en="MONTH">MES</span> 10</td>
+                            <td>-</td>
+                            <td>10.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 10</td>
+                            <td class="corrida-1-mes10">$545,432</td>
+                            <td>20.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 10</td>
+                            <td class="corrida-2-mes10">$652,654</td>
+                            <td>35.0%</td>
+
+                            <td></td>
+
+                            <td><span class="translatable" data-en="MONTH">MES</span> 10</td>
+                            <td class="custom-corrida-mes10">$652,654</td>
+                            <td>35.0%</td>
+                            <td>Dec-25</td>
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr>
+                            <td>TOTAL</td>
+                            <td class="corrida-0-total">$14,171,921</td>
+                            <td>100%</td>
+
+                            <td></td>
+
+                            <td>TOTAL</td>
+                            <td class="corrida-1-total">$14,171,921</td>
+                            <td>100%</td>
+
+                            <td></td>
+
+                            <td>TOTAL</td>
+                            <td class="corrida-2-total">$14,171,921</td>
+                            <td>100%</td>
+
+                            <td></td>
+
+                            <td>TOTAL</td>
+                            <td class="custom-corrida-total">$0</td>
+                            <td>100%</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+         
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script>
+            var english=false ;
+
+            let usd_price = 18.5;
+            let global_currency="MXN";//USD
+
+            var costo_total="$100";
+
+            var units_arr=[];
+
+            $('.currency-toggle').text(global_currency);
+
+            const sheetId = '1Xvi1GtNckzVeEsgx3DT_LucpzVLWOz627DtSXdNptHM';
+            const sheetName = 'costos';
+            const sheetUrl = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
+            fetch(sheetUrl)
+            .then(res => res.json())
+            .then(data => {
+                //console.log('Sheet data:', data);
+                usd_price=data[0]["PRECIO DOLAR"];
+                for(var i=0;i<data.length;i++){
+                    $('.unidad-selector').append('<option value="'+i+'">'+data[i]['APARTAMENTO']+'</option>');
+                    units_arr.push([data[i]['APARTAMENTO'],data[i]['TIPO'],data[i]['RECAMARAS'],data[i]['UBICACION'],data[i]['AREA INTERIOR'],data[i]['AREA TERRAZA'],data[i]['AREA TOTAL'],data[i]['M2'],data[i]['COSTO']]);
+                }
+            })
+            .catch(err => console.error('Error loading sheet:', err));
+
+            function parseCurrency(str) {
+                return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
+            }
+
+            $(document).on('click','.currency-toggle',function(e){
+                e.preventDefault();
+                const selectors = [
+                    '.custom-descuento-value',
+                    '.custom-preciofinal-value',
+                    '.custom-enganche-value',
+                    '.custom-pagoparcial-value',
+                    '.custom-mensualidades-value',
+                    '.custom-entrega-value',
+                    // Corrida values
+                    '.custom-corrida-total',
+                    '.custom-corrida-venta',
+                    '.custom-corrida-mes10',
+                    '.custom-corrida-mes9',
+                    '.custom-corrida-mes8',
+                    '.custom-corrida-mes7',
+                    '.custom-corrida-mes6',
+                    '.custom-corrida-mes5',
+                    '.custom-corrida-mes4',
+                    '.custom-corrida-mes3',
+                    '.custom-corrida-mes2',
+                    '.custom-corrida-mes1'
+                ];
+
+                if($(this).text()=="MXN"){
+                    $(this).text('USD');
+                    global_currency=$(this).text();
+
+                    selectors.forEach(sel => {
+                    const el = $(sel);
+                    const val = parseCurrency(el.text());
+                    const usd = val / usd_price;
+                    el.text(formatMXN(usd));
+                    });
+                }
+                else{
+                    $(this).text('MXN');
+                    global_currency=$(this).text();
+                    selectors.forEach(sel => {
+                        const el = $(sel);
+                        const val = parseCurrency(el.text());
+                        const mxn = val * usd_price;
+                        el.text(formatMXN(mxn));
+                    });
+                }
+                $('.unidad-selector').change(); 
+            });
+
+            function formatMXN(amount) {
+                return '$' + amount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) +' '+global_currency;
+            }
+
+            $(document).on('input change', '.custom-descuento, .custom-enganche, .custom-pagoparcial, .custom-mensualidades, .custom-entrega', function() {
+                const descuento = parseFloat($('.custom-descuento').val()) || 0;
+                const enganche = parseFloat($('.custom-enganche').val()) || 0;
+                const pagoparcial = parseFloat($('.custom-pagoparcial').val()) || 0;
+                const entrega = parseFloat($('.custom-entrega').val()) || 0;
+                const mensualidades = parseFloat($('.custom-mensualidades').val()) || 1;
+
+                const totalPercent = descuento + enganche + pagoparcial + entrega;
+
+                // ⚠️ Check total %
+                if (totalPercent > 100) {
+                    alert('The total percentage cannot exceed 100%. Please adjust the values.');
+                    // Optionally auto-correct:
+                    const excess = totalPercent - 100;
+                    // Distribute correction proportionally or just revert the last change:
+                    $(this).val((parseFloat($(this).val()) - excess).toFixed(2));
+                }
+
+                // Optional: visually warn if below 100%
+                if (totalPercent < 100) {
+                    $('.custom-warning').remove(); // remove old warning
+                    $(this).closest('form').append('<div class="custom-warning" style="color:red;margin-top:5px;">⚠️ The total is less than 100%</div>');
+                } else {
+                    $('.custom-warning').remove();
+                }
+
+                // Calculations
+                const descuento_val = costo_total * (descuento / 100);
+                const precio_final = costo_total - descuento_val;
+                const enganche_val = costo_total * (enganche / 100);
+                const pagoparcial_val = costo_total * (pagoparcial / 100);
+                const mensualidad_val = costo_total / mensualidades;
+                const entrega_val = costo_total * (entrega / 100);
+
+                // Display formatted
+                $('.custom-descuento-value').text(formatMXN(descuento_val));
+                $('.custom-preciofinal-value').text(formatMXN(precio_final));
+                $('.custom-enganche-value').text(formatMXN(enganche_val));
+                $('.custom-pagoparcial-value').text(formatMXN(pagoparcial_val));
+                $('.custom-mensualidades-value').text(formatMXN(mensualidad_val));
+                $('.custom-entrega-value').text(formatMXN(entrega_val));
+
+                $('.custom-corrida-total').text(formatMXN(costo_total));
+                $('.custom-corrida-venta').text(formatMXN(precio_final));
+
+                $('.custom-corrida-mes10').text(formatMXN(mensualidad_val * (35 / 100)));
+                $('.custom-corrida-mes9').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes8').text(formatMXN(mensualidad_val* (4.4 / 100)));
+                $('.custom-corrida-mes7').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes6').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes5').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes4').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes3').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes2').text(formatMXN(mensualidad_val * (4.4 / 100)));
+                $('.custom-corrida-mes1').text(formatMXN(mensualidad_val * (30 / 100)));
+
+            });
+
+
+
+            $(document).on('change','.unidad-selector',function(){
+                //on currency exchange just channge costo_total and .unidad-selector.change().
+                //that's it
+                const indexo=$(this).val();
+                $('.header-type').text(units_arr[indexo][1]);
+                $('.header-rooms').text(units_arr[indexo][2]);
+                $('.header-location').text(units_arr[indexo][3]);
+                $('.header-interior-area').text(units_arr[indexo][4]);
+                $('.header-terrace-area').text(units_arr[indexo][5]);
+                $('.header-total-area').text(units_arr[indexo][6]);
+                $('.header-m2').text(units_arr[indexo][7]);
+                $('.header-total').text(units_arr[indexo][8]);
+                //console.log(units_arr[indexo][8]);
+                if(global_currency=="USD"){
+                    costo_total = parseFloat(units_arr[indexo][8].replace(/[^0-9.-]/g, ''))/usd_price;
+                }
+                else{
+                    costo_total = parseFloat(units_arr[indexo][8].replace(/[^0-9.-]/g, ''));
+                }
+
+                $('.header-total').text(formatMXN(costo_total));
+
+                $('.plan-0-discount').text(formatMXN(costo_total * 0.05));
+                $('.plan-1-discount').text(formatMXN(costo_total * 0.05));
+
+                // Final prices
+                $('.plan-0-finalprice').text(formatMXN(costo_total - costo_total * 0.05));
+                $('.plan-1-finalprice').text(formatMXN(costo_total - costo_total * 0.05));
+                $('.plan-2-finalprice').text(formatMXN(costo_total));
+
+                // Enganches
+                $('.plan-0-enganche').text(formatMXN(costo_total * 0.9));
+                $('.plan-1-enganche').text(formatMXN(costo_total * 0.5));
+                $('.plan-2-enganche').text(formatMXN(costo_total * 0.3));
+
+                // Mensualidades (total)
+                $('.plan-1-mensualidades').text(formatMXN(costo_total * 0.3));
+                $('.plan-2-mensualidades').text(formatMXN(costo_total * 0.35));
+
+                // Mensualidades (divididas en 8)
+                $('.plan-0-mensualidades2').text(formatMXN((costo_total * 0.3) / 8));
+                $('.plan-1-mensualidades2').text(formatMXN((costo_total * 0.35) / 8));
+
+                // Delivery
+                $('.plan-0-delivery').text(formatMXN(costo_total * 0.1));
+                $('.plan-1-delivery').text(formatMXN(costo_total * 0.2));
+                $('.plan-2-delivery').text(formatMXN(costo_total * 0.35));
+
+                // Corridas - Totales
+                $('.corrida-0-total, .corrida-1-total, .corrida-2-total').text(formatMXN(costo_total));
+
+                // Corridas - Mes 1
+                $('.corrida-0-mes1').text(formatMXN(costo_total * 0.1));
+                $('.corrida-1-mes1').text(formatMXN(costo_total * 0.2));
+                $('.corrida-2-mes1').text(formatMXN(costo_total * 0.35));
+
+                // Corrida 1 - Meses 2–10
+                for (let i = 2; i <= 9; i++) {
+                $(`.corrida-1-mes${i}`).text(formatMXN(costo_total * 0.038));
+                }
+                $('.corrida-1-mes10').text(formatMXN(costo_total * 0.2));
+
+                // Corrida 2 - Meses 2–10
+                for (let i = 2; i <= 9; i++) {
+                $(`.corrida-2-mes${i}`).text(formatMXN(costo_total * 0.044));
+                }
+                $('.corrida-2-mes10').text(formatMXN(costo_total * 0.35));
+            });
+
+            $(window).on('load',function(){
+                console.log(location.pathname);
+                if(window.location.href.includes('english')){
+                    console.log('ssss');
+                    english=true;
+                    $('.translatable').each(function(){
+                        $(this).text($(this).attr('data-en'));
+                    });
+                }
+                /*if(english){
+                    $('.translatable').each(function(){
+                        $(this).text($(this).attr('data-en'));
+                    });
+                }*/
+            });
+            
+        </script>
+    </body>
+</html>
