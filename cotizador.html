@@ -742,6 +742,14 @@
                 const dato=$('.plan-2-month-total').attr('data-base')/$(this).val();
                 $('.plan-2-month-total').text('$'+formatNumber(dato));
             });
+            $(document).on('change','.plan-3-months',function(){
+                const dato=$('.plan-3-month-total').attr('data-base')/$(this).val();
+                $('.plan-3-month-total').text('$'+formatNumber(dato));
+            });
+            $(document).on('change','.plan-4-months',function(){
+                const dato=$('.plan-4-month-total').attr('data-base')/$(this).val();
+                $('.plan-4-month-total').text('$'+formatNumber(dato));
+            });
 
             $(document).on('click','.currency-toggle',function(e){
                 e.preventDefault();
