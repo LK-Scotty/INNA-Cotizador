@@ -707,6 +707,7 @@
 
             function fillInfo(){
                 var total=parseFloat(costo_total.replace(/[$,]/g, ''));
+                console.log('el total',total);
                 $('.2-5-percent').text('$'+formatNumber(total*0.025));
                 $('.5-percent').text('$'+formatNumber(total*0.05));
                 $('.1-percent').text('$'+formatNumber(total*0.01));
