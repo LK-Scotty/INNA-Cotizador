@@ -476,6 +476,10 @@
             var img_depa=null;
             var selected_apt=params.get("depa");
 
+            if(!params.get('esp')){
+                english=true;
+            }
+
             emailjs.init("Tmdpdtf9UmwoPRS9R");
             $(document).on('submit','.sh_mailer',function(e){
                 e.preventDefault();
