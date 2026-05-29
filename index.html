@@ -662,7 +662,7 @@
                 fillDiscInfo();
             });
 
-            function formatNumber(num, currency = global_currency) {
+            /*function formatNumber(num, currency = global_currency) {
                 num = parseFloat(String(num).replace(/[$,]/g, '')) || 0;
 
                 let value = (currency === "USD") ? num / usd_price : num; // divide only for USD
@@ -677,6 +677,16 @@
                 }
 
                 return formatted +" " + global_currency;
+            }*/
+           function formatNumber(num, currency = global_currency) {
+                num = parseFloat(String(num).replace(/[$,]/g, '')) || 0;
+
+                let formatted = num.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                return formatted + " " + global_currency;
             }
             
             var overtotal=0;
@@ -741,6 +751,7 @@
                 $('.plan-2-month-total').text('$'+formatNumber(total*0.35));
                 $('.plan-2-month-total').attr('data-base',total*0.35);*/
                 updateDisplay();
+                $('#mail-esquema').change();
             }
 
             $('#mail-esquema').change();
