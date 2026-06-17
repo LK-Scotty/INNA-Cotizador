@@ -693,7 +693,11 @@
 
             $('.custom-months').on('change',function(){
                 const monthqty=$(this).val();
-                $('.custom-months-total').text('$'+formatNumber(parseFloat(costo_total.replace(/[$,]/g, ''))/monthqty));
+
+                var custom_construction_total=$('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]').text().replace(/[^0-9.]/g, "");
+
+                //$('.custom-months-total').text('$'+formatNumber(parseFloat(costo_total.replace(/[$,]/g, ''))/monthqty));
+                $('.custom-months-total').text('$'+formatNumber(custom_construction_total/monthqty));
             });
 
             function fillDiscInfo(){
@@ -712,7 +716,9 @@
                 $('.70-percent.over-discount').text('$'+formatNumber(overtotal*0.7));
                 $('.90-percent.over-discount').text('$'+formatNumber(overtotal*0.9));
 
-                $('.plan-1-month-total').text('$'+formatNumber(overtotal/12));
+                //$('.plan-1-month-total').text('$'+formatNumber(overtotal/12));
+                var planone_construction=$('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]').text().replace(/[^0-9.]/g, "");
+                $('.plan-1-month-total').text('$'+formatNumber(planone_construction/12));
                 //$('.plan-2-month-total').text('$'+formatNumber(overtotal/12));
                 var plantwo_construction=$('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]').text().replace(/[^0-9.]/g, "");
                 $('.plan-2-month-total').text('$'+formatNumber(plantwo_construction/12));
