@@ -713,7 +713,9 @@
                 $('.90-percent.over-discount').text('$'+formatNumber(overtotal*0.9));
 
                 $('.plan-1-month-total').text('$'+formatNumber(overtotal/12));
-                $('.plan-2-month-total').text('$'+formatNumber(overtotal/12));
+                //$('.plan-2-month-total').text('$'+formatNumber(overtotal/12));
+                var plantwo_construction=$('.cotizador-construccion[data-which="'+$('#mail-esquema').val()+'"]').text().replace(/[^0-9.]/g, "");
+                $('.plan-2-month-total').text('$'+formatNumber(plantwo_construction/12));
 
                 $('.custom-months').change();
             }
